@@ -7,19 +7,26 @@ const exibirImc = (req, res) => {
 const realizarImc = async (req, res) => {
   const { peso } = req.body
   const alturaM = (parseFloat(req.body.altura) / 100).toFixed(2)
-
   try {
-    await pool.query(
-      'INSERT INTO imc (aluno_id, peso, altura) VALUES (?, ?, ?)',
-      [req.session.aluno_id, peso, alturaM]
+    const [existe] = await pool.query(
+      'SELECT id FROM imc WHERE aluno_id = ?',
+      [req.session.aluno_id]
     )
-
-    // Busca o IMC calculado pelo trigger no banco
+    if (existe.length > 0) {
+      await pool.query(
+        'UPDATE imc SET peso = ?, altura = ? WHERE aluno_id = ?',
+        [peso, alturaM, req.session.aluno_id]
+      )
+    } else {
+      await pool.query(
+        'INSERT INTO imc (aluno_id, peso, altura) VALUES (?, ?, ?)',
+        [req.session.aluno_id, peso, alturaM]
+      )
+    }
     const [rows] = await pool.query(
       'SELECT imc FROM imc WHERE aluno_id = ? ORDER BY id DESC LIMIT 1',
       [req.session.aluno_id]
     )
-
     res.render('pages/imc', { imcBanco: rows[0].imc })
   } catch (err) {
     console.error(err)
