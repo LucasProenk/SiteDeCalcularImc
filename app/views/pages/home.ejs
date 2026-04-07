@@ -1,0 +1,25 @@
+ <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="/css/baseimc.css">
+</head>
+<body>
+<div class="card">
+  <h1>Olá, <%= aluno.nome %>!</h1>
+
+  <div class="resultado">
+    <span>Seu IMC</span>
+    <h2><%= Number(aluno.imc).toFixed(2) %></h2>
+  </div>
+
+  <div class="faixas">
+    <div id="abaixo" class="<%= Number(aluno.imc) < 18.5 ? 'ativo' : '' %>">Abaixo do peso</div>
+    <div id="ideal" class="<%= Number(aluno.imc) >= 18.5 && Number(aluno.imc) < 25 ? 'ativo' : '' %>">Peso ideal</div>
+    <div id="acima" class="<%= Number(aluno.imc) >= 25 ? 'ativo' : '' %>">Acima do peso</div>
+  </div>
+</div>
+</body>
+</html>
