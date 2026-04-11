@@ -20,6 +20,16 @@
     <div id="ideal" class="<%= Number(aluno.imc) >= 18.5 && Number(aluno.imc) < 25 ? 'ativo' : '' %>">Peso ideal</div>
     <div id="acima" class="<%= Number(aluno.imc) >= 25 ? 'ativo' : '' %>">Acima do peso</div>
   </div>
+
+  <div class="treinos">
+  <% treinos.forEach(treino => { %>
+  <div class="treino-card">
+    <h3>TREINO <%= treino.nome %></h3>
+    <p><%= treino.musculo %></p>
+    <p><%= treino.descricao %></p>
+  </div>
+  <% }) %>
+</div>
 </div>
 </body>
 </html>
